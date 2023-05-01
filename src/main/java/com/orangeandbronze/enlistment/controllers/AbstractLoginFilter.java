@@ -16,14 +16,14 @@ import com.orangeandbronze.enlistment.service.UserService.*;
 public abstract class AbstractLoginFilter implements Filter {
 
 	static UserService service;
-	
+
 	private final String idAttributeName;
 	private final String loginErrorAttributeName;
 	private final UserType type;
 	private final String idName;
 
 	AbstractLoginFilter(String idAttributeName, String loginErrorAttributeName,
-			UserType type, String idName) {
+						UserType type, String idName) {
 		this.idAttributeName = idAttributeName;
 		this.loginErrorAttributeName = loginErrorAttributeName;
 		this.type = type;
@@ -31,7 +31,7 @@ public abstract class AbstractLoginFilter implements Filter {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
+						 FilterChain chain) throws IOException, ServletException {
 		HttpSession session = ((HttpServletRequest) request).getSession();
 		if (session.getAttribute(idAttributeName) == null) {
 			String param = request.getParameter(idAttributeName);
@@ -54,7 +54,7 @@ public abstract class AbstractLoginFilter implements Filter {
 										+ "'. Please enter an integer.");
 					}
 					forwardToLoginPage(request, response);
-				} catch (RecordNotFoundExeption e) {
+				} catch (RecordNotFoundException e) {
 					request.setAttribute(loginErrorAttributeName,
 							"The " + idName + " '" + id
 									+ "' was not found in our database.");
