@@ -118,4 +118,7 @@ public class Student {
 			return false;
 		return true;
 	}
+
+	public void enlist(String sectionId, String sectionName, String subjectName, String days, String timeSlot, String roomName, int capacity) {
+	}
 }
