@@ -54,7 +54,7 @@ public abstract class AbstractLoginFilter implements Filter {
 										+ "'. Please enter an integer.");
 					}
 					forwardToLoginPage(request, response);
-				} catch (RecordNotFoundException e) {
+				} catch (RecordNotFoundExeption e) {
 					request.setAttribute(loginErrorAttributeName,
 							"The " + idName + " '" + id
 									+ "' was not found in our database.");
