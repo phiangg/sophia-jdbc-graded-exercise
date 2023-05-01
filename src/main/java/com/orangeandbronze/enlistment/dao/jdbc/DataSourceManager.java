@@ -1,96 +1,77 @@
 package com.orangeandbronze.enlistment.dao.jdbc;
 
-import org.postgresql.ds.PGSimpleDataSource;
-
-import com.orangeandbronze.enlistment.dao.DataAccessException;
-
-import javax.sql.DataSource;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Properties;
 
+import javax.sql.DataSource;
+
+import org.postgresql.ds.PGSimpleDataSource;
+
+/**
+ * This class manages the DataSource used to connect to the database.
+ * It ensures that only a single instance of DataSource is created and used throughout the application.
+ */
 public class DataSourceManager {
 
+    // Configuration filename
+    private static final String PROP_FILENAME = "pg.datasource.properties";
+
+    // The single DataSource object
     private static DataSource dataSource;
 
-    private final static Map<String, String> sqlCache = new HashMap<>();
-
-    private DataSourceManager() {};
-
+    /**
+     * Returns the single dataSource object, instantiating the
+     * object if it hasn't been created yet.
+     *
+     * @return the DataSource object
+     */
     public static DataSource getDataSource() {
-        if(dataSource == null) {
+        if (dataSource == null) {
+            // Load the configuration file containing the database connection details
             Properties prop = new Properties();
-            String propFileName = "pg.datasource.properties";
-
             try (Reader reader = new BufferedReader(new InputStreamReader(
-                    Objects.requireNonNull(DataSourceManager.class.getClassLoader().getResourceAsStream(propFileName))
-            ))) {
+                    DataSourceManager.class.getClassLoader().getResourceAsStream(PROP_FILENAME)))) {
                 prop.load(reader);
-            } catch (IOException e) {
-                throw new RuntimeException(
-                        String.format("Problem reading file: %s", propFileName),
-                        e
-                );
+            } catch (IOException ex) {
+                throw new RuntimeException("Failed to load configuration file", ex);
             }
 
+            // Create a new PGSimpleDataSource object and set its properties based on the configuration file
             PGSimpleDataSource simpleDataSource = new PGSimpleDataSource();
-            simpleDataSource.setServerNames(new String[] {prop.getProperty("servername")});
+            simpleDataSource.setServerName(prop.getProperty("servername"));
             simpleDataSource.setDatabaseName(prop.getProperty("database"));
             simpleDataSource.setUser(prop.getProperty("user"));
             simpleDataSource.setPassword(prop.getProperty("password"));
+
+            // Set the dataSource field to the new DataSource object
             dataSource = simpleDataSource;
         }
 
+        // Return the DataSource object
         return dataSource;
     }
 
-    public static String getSql(String sqlFile) {
-        if(!sqlCache.containsKey(sqlFile)) {
-            try (Reader reader = new BufferedReader(new InputStreamReader(
-                    Objects.requireNonNull(DataSourceManager.class.getClassLoader().getResourceAsStream(sqlFile))
-            ))) {
-
-                StringBuilder builder = new StringBuilder();
-                int i = 0;
-
-                while ((i = reader.read()) > 0) {
-                    builder.append((char) i);
-                }
-
-                sqlCache.put(sqlFile, builder.toString());
-            } catch (IOException ex) {
-                throw new DataAccessException(
-                        String.format("Problem while trying to read file %s from classpath", sqlFile),
-                        ex
-                );
-            }
-        }
-
-        return sqlCache.get(sqlFile);
-    }
-    public static PreparedStatement prepareStatement(DataSource ds, String sqlFile) throws DataAccessException {
-        PreparedStatement preparedStatement = null;
-
+    /**
+     * Returns a Connection object from the DataSource.
+     *
+     * @return a Connection object
+     */
+    public static Connection getConnection() {
+        Connection connection = null;
         try {
-            Connection conn = ds.getConnection();
-            preparedStatement = conn.prepareStatement(getSql(sqlFile));
-        } catch (SQLException ex) {
-            // e.printStackTrace();
-            throw new DataAccessException(
-                    String.format("Problem with processing SQL query %s", sqlFile),
-                    ex
-            );
+            // Get a Connection object from the DataSource
+            connection = getDataSource().getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        return preparedStatement;
+        // Return the Connection object
+        return connection;
     }
 
 }
+
