@@ -168,3 +168,4 @@ public class SectionDaoJdbc extends AbstractDaoJdbc implements SectionDAO {
             throw new DataAccessException("Unable to create section", e);
         }
     }
+}
