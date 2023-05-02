@@ -49,7 +49,7 @@ public class Schedule {
 	boolean isOverlappingWith(Schedule other) {
 		if (this == TBA || other == TBA) {
 			return false;
-		}		
+		}
 		return (this.days == other.days) && (this.start.isBefore(other.end)
 				&& this.end.isAfter(other.start));
 	}
@@ -57,7 +57,7 @@ public class Schedule {
 	public static Schedule valueOf(String scheduleString) {
 		if (StringUtils.trimToEmpty(scheduleString).equals("")
 				|| StringUtils.trimToEmpty(scheduleString)
-						.equalsIgnoreCase("TBA")
+				.equalsIgnoreCase("TBA")
 				|| StringUtils.trimToEmpty(scheduleString).equals("NULL")) {
 			return TBA;
 		} else {
