@@ -1,5 +1,6 @@
 package com.orangeandbronze.enlistment.dao;
 
+import java.sql.Connection;
 import java.util.*;
 
 import com.orangeandbronze.enlistment.domain.*;
@@ -13,8 +14,10 @@ public interface SectionDAO {
 	Section findBy(String sectionId);
 	
 	Collection<Map<String, String>> findAllSectionInfos();
-	
-	/** Saves a NEW section. **/
+
+    List<Section> findAll();
+
+    /** Saves a NEW section. **/
 	void create(Section section);
 
 	Collection<Map<String, String>> findSectionInfosByStudentNo(
@@ -22,4 +25,6 @@ public interface SectionDAO {
 
 	Collection<Map<String, String>> findSectionInfosNotByStudentNo(
 			int studentNumber);
+
+    Connection getConnection();
 }
