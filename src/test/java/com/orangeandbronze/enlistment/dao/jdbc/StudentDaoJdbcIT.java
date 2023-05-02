@@ -8,7 +8,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.beans.SamePropertyValuesAs.*;*/
 import static org.junit.Assert.*;
 
-import java.sql.*;
 import java.time.*;
 import java.util.*;
 
@@ -35,25 +34,25 @@ public class StudentDaoJdbcIT {
 	public void findStudentThatHasSections() throws Exception {
 		initData("StudentHasSections.xml");
 		Student actualStudent = dao.findWithSectionsBy(1);
-		Collection<Section> actualSections = actualStudent.getSections();
+		Collection<SectionDaoJdbc> actualSections = actualStudent.getSections();
 		assertThat(actualSections, Matchers.containsInAnyOrder(
-				new Section("MHX123", Subject.NONE, Schedule.TBA, Room.TBA),
-				new Section("TFX555", Subject.NONE, Schedule.TBA, Room.TBA),
-				new Section("MHW432", Subject.NONE, Schedule.TBA, Room.TBA)));
+				new SectionDaoJdbc("MHX123", Subject.NONE, Schedule.TBA, Room.TBA),
+				new SectionDaoJdbc("TFX555", Subject.NONE, Schedule.TBA, Room.TBA),
+				new SectionDaoJdbc("MHW432", Subject.NONE, Schedule.TBA, Room.TBA)));
 	}
 
 	@Test
 	public void findStudentThatHasSectionsWithSubjectSchedulesAndRooms()
 			throws Exception {
 		initData("StudentHasSections.xml");
-		Collection<Section> sections = dao.findWithSectionsBy(1).getSections();
-		Section sec1 = new Section("MHX123", new Subject("MATH11"),
+		Collection<SectionDaoJdbc> sections = dao.findWithSectionsBy(1).getSections();
+		SectionDaoJdbc sec1 = new SectionDaoJdbc("MHX123", new Subject("MATH11"),
 				new Schedule(MTH, LocalTime.of(8, 30), LocalTime.of(10, 0)),
 				new Room("MATH105", 10));
-		Section sec2 = new Section("TFX555", new Subject("PHILO1"),
+		SectionDaoJdbc sec2 = new SectionDaoJdbc("TFX555", new Subject("PHILO1"),
 				new Schedule(TF, LocalTime.of(10, 0), LocalTime.of(11, 30)),
 				new Room("AS113", 10));
-		Section sec3 = new Section("MHW432", new Subject("COM1"),
+		SectionDaoJdbc sec3 = new SectionDaoJdbc("MHW432", new Subject("COM1"),
 				new Schedule(MTH, LocalTime.of(13, 0), LocalTime.of(14, 30)),
 				new Room("AVR1", 10));
 		

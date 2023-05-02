@@ -4,11 +4,9 @@ import static com.orangeandbronze.enlistment.dao.jdbc.DbUnitUtil.*;
 import static org.junit.Assert.*;
 
 import java.sql.*;
-import java.time.*;
 
 import org.junit.*;
 
-import com.orangeandbronze.enlistment.dao.*;
 import com.orangeandbronze.enlistment.domain.*;
 
 public class EnlistmentDaoJdbcIT implements JdbcDaoConstants {
@@ -67,7 +65,7 @@ public class EnlistmentDaoJdbcIT implements JdbcDaoConstants {
 	public void testCreate() throws Exception {
 		final String sectionId = "NOSTUDENTS";
 		final int versionOrig = 0;
-		final Section sectionOrig = new Section(sectionId,
+		final SectionDaoJdbc sectionOrig = new SectionDaoJdbc(sectionId,
 				new Subject("MATH11"), Schedule.valueOf("TF 08:30-10:00"),
 				new Room("MATH105"), versionOrig);
 		final int studentNumber = 1;
@@ -92,7 +90,7 @@ public class EnlistmentDaoJdbcIT implements JdbcDaoConstants {
 		Student student2 = new Student(2);
 		Thread thread1 = new Thread() {
 			public void run() {
-				Section section = sectionDao.findBy("CAPACITY1"); // capacity 1
+				SectionDaoJdbc section = sectionDao.findBy("CAPACITY1"); // capacity 1
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
@@ -102,7 +100,7 @@ public class EnlistmentDaoJdbcIT implements JdbcDaoConstants {
 			}
 		};
 		Thread thread2 = new Thread() {
-			Section section = sectionDao.findBy("CAPACITY1"); // capacity 1
+			SectionDaoJdbc section = sectionDao.findBy("CAPACITY1"); // capacity 1
 
 			public void run() {
 				try {

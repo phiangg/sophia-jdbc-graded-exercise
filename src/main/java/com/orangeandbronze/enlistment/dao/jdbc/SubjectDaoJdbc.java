@@ -11,11 +11,18 @@ import javax.sql.DataSource;
 
 import com.orangeandbronze.enlistment.dao.DataAccessException;
 import com.orangeandbronze.enlistment.dao.SubjectDAO;
+import com.orangeandbronze.enlistment.domain.Subject;
 
-public abstract class SubjectDaoJdbc extends AbstractDaoJdbc implements SubjectDAO {
 
-    public SubjectDaoJdbc(DataSource ds) {
-        super(ds, "FindAllIds.sql");
+public class SubjectDaoJdbc extends AbstractDaoJdbc implements SubjectDAO {
+
+    public SubjectDaoJdbc(DataSource dataSource) {
+        super(dataSource, "FindAllIds.sql");
+    }
+
+    @Override
+    public Subject findBy(String subjectId) {
+        return null;
     }
 
     @Override

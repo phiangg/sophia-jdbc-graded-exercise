@@ -29,7 +29,7 @@ public class RoomDaoJdbcIT {
 		assertEquals(5, room.getCapacity());
 		assertEquals(2, room.getVersion());
 		List<String> sectionIds = room.getSections().stream()
-				.map(Section::getSectionId).collect(Collectors.toList());
+				.map(SectionDaoJdbc::getSectionId).collect(Collectors.toList());
 		assertThat(sectionIds,
 				Matchers.containsInAnyOrder("MHW432", "MHY987", "TF888"));
 	}

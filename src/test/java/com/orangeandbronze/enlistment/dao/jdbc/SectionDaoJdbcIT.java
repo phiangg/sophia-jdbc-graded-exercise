@@ -25,7 +25,7 @@ public class SectionDaoJdbcIT {
 	@Test
 	public void testFindBy() throws Exception {
 		final String sectionId = "TFX555";
-		final Section section = dao.findBy(sectionId);
+		final SectionDaoJdbc section = dao.findBy(sectionId);
 		assertEquals(sectionId, section.getSectionId());
 		assertEquals("PHILO1", section.getSubject().getSubjectId());
 		assertEquals("TF 10:00-11:30", section.getSchedule().toString());

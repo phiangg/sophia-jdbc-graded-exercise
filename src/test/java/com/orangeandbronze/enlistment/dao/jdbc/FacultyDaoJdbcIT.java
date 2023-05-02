@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.util.*;
 import java.util.stream.*;
 
-import org.apache.poi.util.*;
 import org.hamcrest.*;
 import org.junit.*;
 
@@ -23,14 +22,14 @@ public class FacultyDaoJdbcIT {
 		Faculty faculty = dao.findBy(2);
 		assertEquals("Buzz", faculty.getFirstname());
 		assertEquals("Lightyear", faculty.getLastname());
-		Collection<Section> sections = faculty.getSections();
+		Collection<SectionDaoJdbc> sections = faculty.getSections();
 		assertEquals(2, sections.size());
 		Collection<String> sectionIds = sections.stream()
-				.map(Section::getSectionId).collect(Collectors.toList());
+				.map(SectionDaoJdbc::getSectionId).collect(Collectors.toList());
 		assertThat(sectionIds,
 				Matchers.containsInAnyOrder("TFX555", "CAPACITY1"));
 		Collection<Schedule> schedules = sections.stream()
-				.map(Section::getSchedule).collect(Collectors.toList());
+				.map(SectionDaoJdbc::getSchedule).collect(Collectors.toList());
 		assertThat(schedules,
 				Matchers.containsInAnyOrder(Schedule.valueOf("TF 10:00-11:30"),
 						Schedule.valueOf("MTH 11:30-13:00")));
