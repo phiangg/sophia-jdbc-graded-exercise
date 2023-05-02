@@ -11,10 +11,9 @@ public class Room {
 	private final Integer capacity;
 	private final Collection<Section> sections = new HashSet<>();
 	private final Integer version;
-	private String roomName;
 
-	public Room(String roomName, int capacity, Collection<Section> sections, 
-			Integer version) {
+	public Room(String roomName, int capacity, Collection<Section> sections,
+				Integer version) {
 		matchesPattern(roomName, "[a-zA-Z0-9]+",
 				"roomName should be alphanumeric, was %s", roomName);
 		isTrue(capacity >= 0, "capacity must be non-negative, was %d",
@@ -31,7 +30,7 @@ public class Room {
 	public Room(String roomName, int capacity) {
 		this(roomName, capacity, null, 0);
 	}
-	
+
 	public Room(String roomName, int capacity, Collection<Section> sections) {
 		this(roomName, capacity, sections, null);
 	}
@@ -39,7 +38,7 @@ public class Room {
 	public Room(String roomName, int capacity, int version) {
 		this(roomName, capacity, null, version);
 	}
-	
+
 	/** Default capacity **/
 	public Room(String roomName) {
 		this(roomName, 10, null, 0);
@@ -117,11 +116,4 @@ public class Room {
 		return true;
 	}
 
-    public String getRoomName() {
-        return roomName;
-    }
-
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
-    }
 }
