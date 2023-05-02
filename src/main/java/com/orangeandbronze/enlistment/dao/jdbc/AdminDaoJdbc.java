@@ -1,5 +1,6 @@
 package com.orangeandbronze.enlistment.dao.jdbc;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,7 +35,7 @@ public class AdminDaoJdbc extends UserDaoJdbc implements AdminDAO {
                 data.put("lastname", rs.getString("lastname"));
             }
 
-        } catch(SQLException ex) {
+        } catch(SQLException | IOException ex) {
             throw new DataAccessException(
                     String.format("SQL Query failed: Problem retrieving admin info for id %d", adminId),
                     ex
@@ -42,9 +43,6 @@ public class AdminDaoJdbc extends UserDaoJdbc implements AdminDAO {
         }
 
         return data;
-    }
-
-    private PreparedStatement prepareStatementFromFile(String s) {
     }
 
     // findUserInfobById seems to be only used

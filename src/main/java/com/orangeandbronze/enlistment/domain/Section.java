@@ -18,6 +18,8 @@ public class Section {
 	private Faculty faculty = Faculty.TBA;
 	private final Collection<Student> students = new HashSet<>();
 	private final Integer version; // version recorded in database
+	private int capacity;
+	private Map<Object, Object> schedules;
 
 	/**
 	 * @param version
@@ -175,4 +177,19 @@ public class Section {
 		return true;
 	}
 
+	public int getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
+
+	public Map<Object, Object> getSchedules() {
+		return schedules;
+	}
+
+	public void setSchedules(Map<Object, Object> schedules) {
+		this.schedules = schedules;
+	}
 }

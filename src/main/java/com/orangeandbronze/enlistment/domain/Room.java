@@ -11,6 +11,7 @@ public class Room {
 	private final Integer capacity;
 	private final Collection<Section> sections = new HashSet<>();
 	private final Integer version;
+	private String roomName;
 
 	public Room(String roomName, int capacity, Collection<Section> sections, 
 			Integer version) {
@@ -116,4 +117,11 @@ public class Room {
 		return true;
 	}
 
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
 }
