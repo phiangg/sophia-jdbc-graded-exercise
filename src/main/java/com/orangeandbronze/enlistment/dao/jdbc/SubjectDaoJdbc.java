@@ -17,7 +17,7 @@ import com.orangeandbronze.enlistment.domain.Subject;
 public class SubjectDaoJdbc extends AbstractDaoJdbc implements SubjectDAO {
 
     public SubjectDaoJdbc(DataSource dataSource) {
-        super(dataSource, "FindAllIds.sql");
+        super(dataSource);
     }
 
     @Override
