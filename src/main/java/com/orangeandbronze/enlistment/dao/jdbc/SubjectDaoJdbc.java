@@ -1,79 +1,44 @@
 package com.orangeandbronze.enlistment.dao.jdbc;
 
-import com.orangeandbronze.enlistment.dao.*;
-import com.orangeandbronze.enlistment.domain.*;
-
-import javax.sql.DataSource;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class SubjectDaoJdbc extends AbstractDaoJdbc implements SubjectDAO {
+import javax.sql.DataSource;
+
+import com.orangeandbronze.enlistment.dao.DataAccessException;
+import com.orangeandbronze.enlistment.dao.SubjectDAO;
+
+public abstract class SubjectDaoJdbc extends AbstractDaoJdbc implements SubjectDAO {
 
     public SubjectDaoJdbc(DataSource ds) {
-        super(ds);
+        super(ds, "FindAllIds.sql");
     }
 
     @Override
-    public Subject findBy(String subjectId) {
-        try (PreparedStatement stmt = prepareStatement("SELECT * FROM subjects WHERE subject_id = ?")) {
-            stmt.setString(1, subjectId);
+    public Collection<String> findAllIds() {
+        Collection<String> subjects = new ArrayList<>();
+
+        try (PreparedStatement stmt = prepareStatementFromFile("FindAllIds.sql")) {
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                return new Subject(
-                        rs.getString("subject_id"),
-                        rs.getString("description"),
-                        rs.getInt("units")
-                );
+            while(rs.next()) {
+                subjects.add(rs.getString("subject_id"));
             }
 
-        } catch (SQLException ex) {
-            throw new DataAccessException("Failed to find subject by ID: " + subjectId, ex);
-        }
-
-        return Subject.TBA;
-    }
-
-    @Override
-    public Collection<Subject> findAll() {
-        Collection<Subject> subjects = new ArrayList<>();
-
-        try (PreparedStatement stmt = prepareStatement("SELECT * FROM subjects")) {
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                subjects.add(new Subject(
-                        rs.getString("subject_id"),
-                        rs.getString("description"),
-                        rs.getInt("units")
-                ));
-            }
-
-        } catch (SQLException ex) {
-            throw new DataAccessException("Failed to retrieve all subjects", ex);
+        } catch(SQLException | IOException ex) {
+            throw new DataAccessException(
+                    String.format("SQL Query failed: Problem retrieving subjects"),
+                    ex
+            );
         }
 
         return subjects;
     }
 
-    @Override
-    public Collection<String> findAllIds() {
-        Collection<String> subjectIds = new ArrayList<>();
 
-        try (PreparedStatement stmt = prepareStatement("SELECT subject_id FROM subjects")) {
-            ResultSet rs = stmt.executeQuery();
 
-            while (rs.next()) {
-                subjectIds.add(rs.getString("subject_id"));
-            }
-
-        } catch (SQLException ex) {
-            throw new DataAccessException("Failed to retrieve all subject IDs", ex);
-        }
-
-        return subjectIds;
-    }
 }

@@ -9,10 +9,13 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.orangeandbronze.enlistment.dao.DataAccessException;
 import com.orangeandbronze.enlistment.dao.SectionDAO;
 import com.orangeandbronze.enlistment.domain.Schedule;
 import com.orangeandbronze.enlistment.domain.Section;
 import com.orangeandbronze.enlistment.domain.Subject;
+
+import static com.orangeandbronze.enlistment.dao.jdbc.DataSourceManager.getConnection;
 
 public class SectionDaoJdbc extends AbstractDaoJdbc implements SectionDAO {
 
