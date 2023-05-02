@@ -30,6 +30,9 @@ public abstract class AbstractDaoJdbc {
         this.dataSource = dataSource;
     }
 
+    public AbstractDaoJdbc(DataSource dataSource, String s) {
+    }
+
     /**
      * Reads a SQL query from a file with the given filename.
      * @param filename the name of the file containing the SQL query
