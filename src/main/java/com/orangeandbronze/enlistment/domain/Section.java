@@ -55,8 +55,8 @@ public class Section {
 				new ArrayList<>(0), version);
 	}
 
-	public Section(String sectionId, Subject subject, Schedule schedule,
-			Room room) {
+	public Section(String sectionId, Subject subject, List<Schedule> schedule,
+				   Room room) {
 		this(sectionId, subject, schedule, room, Faculty.TBA,
 				new ArrayList<>(0), 0);
 	}

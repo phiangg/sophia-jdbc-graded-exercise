@@ -2,6 +2,7 @@ package com.orangeandbronze.enlistment.dao.jdbc;
 
 import java.io.*;
 import java.sql.*;
+import java.util.Map;
 
 import org.dbunit.*;
 import org.dbunit.database.*;
@@ -49,7 +50,12 @@ public class DbUnitUtil {
 	public static StudentDAO cleanInsertAndCreateDao(String datasetFilename)
 			throws Exception {
 		initData(datasetFilename);
-		return new StudentDaoJdbc(DataSourceManager.getDataSource());
+		return new StudentDaoJdbc(DataSourceManager.getDataSource()) {
+			@Override
+			public Map<String, String> findUserInfobById(int id) {
+				return null;
+			}
+		};
 	}
 
 	public static void initData(String datasetFilename) throws SQLException,

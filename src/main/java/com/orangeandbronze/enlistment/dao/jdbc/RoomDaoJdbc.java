@@ -25,7 +25,7 @@ public class RoomDaoJdbc extends AbstractDaoJdbc implements RoomDAO {
     private final int QUERY_ROOM_NAME_FIELD = 1;
 
     public RoomDaoJdbc(DataSource dataSource) {
-        super(dataSource, FindAllRoomInfos.sql);
+        super(dataSource, "FindRoomById.sql");
     }
 
     @Override

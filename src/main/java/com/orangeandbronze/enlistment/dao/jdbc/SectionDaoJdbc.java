@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 
 import com.orangeandbronze.enlistment.dao.DataAccessException;
 import com.orangeandbronze.enlistment.dao.SectionDAO;
+import com.orangeandbronze.enlistment.dao.jdbc.AbstractDaoJdbc;
 import com.orangeandbronze.enlistment.domain.Room;
 import com.orangeandbronze.enlistment.domain.Schedule;
 import com.orangeandbronze.enlistment.domain.Section;
@@ -54,7 +55,7 @@ public abstract class SectionDaoJdbc extends AbstractDaoJdbc implements SectionD
                     String roomName = rs.getString("room_name");
                     int capacity = rs.getInt("capacity");
 
-                    return new Section(sectionId, subject, (Schedule) schedules, new Room(roomName, capacity));
+                    return new Section(sectionId, subject, (List<Schedule>) schedules, new Room(roomName, capacity));
                 }
             }
 
@@ -94,7 +95,7 @@ public abstract class SectionDaoJdbc extends AbstractDaoJdbc implements SectionD
                 String roomName = rs.getString("room_name");
                 int capacity = rs.getInt("capacity");
 
-                sections.add(new Section(sectionId, subject, (Schedule) schedules, new Room(roomName, capacity)));
+                sections.add(new Section(sectionId, subject, (List<Schedule>) schedules, new Room(roomName, capacity)));
             }
 
             return sections;
@@ -104,24 +105,6 @@ public abstract class SectionDaoJdbc extends AbstractDaoJdbc implements SectionD
     }
 
     private static final String CREATE_SECTION = "INSERT INTO sections (section_id, subject_id, room_name, day, start_time, end_time, capacity) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-    @Override
-    public void create(Section section) {
-        try (Connection conn = getConnection();
-             PreparedStatement
-                     stmt = conn.prepareStatement(CREATE_SECTION)) {
-            stmt.setString(1, section.getSectionId());
-            stmt.setString(2, section.getSubject().getSubjectId());
-            stmt.setString(3, section.getRoom().getRoomName());
-            stmt.setString(4, section.getSchedules().get(0).getDay().toString());
-            stmt.setString(5, section.getSchedules().get(0).getStartTime().toString());
-            stmt.setString(6, section.getSchedules().get(0).getEndTime().toString());
-            stmt.setInt(7, section.getRoom().getCapacity());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new DataAccessException("Unable to create section", e);
-        }
-    }
     @Override
     public void create(Section section) {
         try (Connection conn = getConnection();
