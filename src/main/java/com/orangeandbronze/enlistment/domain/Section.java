@@ -18,16 +18,14 @@ public class Section {
 	private Faculty faculty = Faculty.TBA;
 	private final Collection<Student> students = new HashSet<>();
 	private final Integer version; // version recorded in database
-	private int capacity;
-	private Map<Object, Object> schedules;
 
 	/**
 	 * @param version
 	 *            is the version recorded in the database
 	 **/
 	public Section(String sectionId, Subject subject, Schedule schedule,
-			Room room, Faculty faculty, Collection<Student> enlistedStudents,
-			Integer version) {
+				   Room room, Faculty faculty, Collection<Student> enlistedStudents,
+				   Integer version) {
 		isTrue(StringUtils.isAlphanumeric(sectionId),
 				"sectionId should be alphanumeric, was %s", sectionId);
 		notNull(schedule);
@@ -50,31 +48,31 @@ public class Section {
 	}
 
 	public Section(String sectionId, Subject subject, Schedule schedule,
-			Room room, Integer version) {
+				   Room room, Integer version) {
 		this(sectionId, subject, schedule, room, Faculty.TBA,
 				new ArrayList<>(0), version);
 	}
 
-	public Section(String sectionId, Subject subject, List<Schedule> schedule,
+	public Section(String sectionId, Subject subject, Schedule schedule,
 				   Room room) {
 		this(sectionId, subject, schedule, room, Faculty.TBA,
 				new ArrayList<>(0), 0);
 	}
 
 	public Section(String sectionId, Subject subject, Schedule schedule,
-			Room room, Collection<Student> enlistedStudents) {
+				   Room room, Collection<Student> enlistedStudents) {
 		this(sectionId, subject, schedule, room, Faculty.TBA, enlistedStudents,
 				0);
 	}
 
 	public Section(String sectionId, Subject subject, Schedule schedule,
-			Room room, Faculty faculty) {
+				   Room room, Faculty faculty) {
 		this(sectionId, subject, schedule, room, faculty, new ArrayList<>(0),
 				0);
 	}
 
 	public Section(String sectionId, Subject subject, Schedule schedule,
-			Room room, Faculty faculty, int version) {
+				   Room room, Faculty faculty, int version) {
 		this(sectionId, subject, schedule, room, faculty, new ArrayList<>(0),
 				version);
 	}
@@ -177,19 +175,4 @@ public class Section {
 		return true;
 	}
 
-	public int getCapacity() {
-		return capacity;
-	}
-
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
-	}
-
-	public Map<Object, Object> getSchedules() {
-		return schedules;
-	}
-
-	public void setSchedules(Map<Object, Object> schedules) {
-		this.schedules = schedules;
-	}
 }
